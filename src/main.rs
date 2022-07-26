@@ -3,7 +3,7 @@ use std::io;
 use std::{thread, time};
 
 enum Plr {
-    Person(u8), // number identifier for player
+    Person,
     AI,
 }
 
@@ -13,33 +13,66 @@ impl fmt::Display for Plr {
             f,
             "{}",
             match self {
-                Plr::Person(id) => format!("Player {}", id),
-                Plr::AI => "AI Player".to_owned(),
+                Plr::Person => "Human",
+                Plr::AI => "AI",
             }
         )
     }
 }
 
 fn main() {
-    play_game(vec![3, 5, 8], vec![Plr::Person(1), Plr::AI]);
+    loop {
+        println!("Write out a list stacks, with a comma seperating each (i.e. 3, 5, 8)");
+        let stacks = get_starting_stacks().expect("Invalid Response");
+        let mut plr_vec: Vec<Plr> = vec![Plr::Person, Plr::Person];
+        println!("Singleplayer with AI? [Y/n]");
+        let is_single = get_yes_ans().expect("Invalid response");
+        if is_single {
+            plr_vec[0] = Plr::AI; // by default ai is second
+            println!("Do you want Player 1? [Y/n]");
+            if get_yes_ans().expect("Invalid response") {
+                plr_vec.reverse()
+            }
+        }
+        play_game(stacks, plr_vec);
+    }
+}
+
+fn get_yes_ans() -> Option<bool> {
+    let mut buffer = String::new();
+    io::stdin().read_line(&mut buffer).ok()?;
+    match buffer.trim().to_lowercase().as_str() {
+        "y" => Some(true),
+        "n" => Some(false),
+        _ => None,
+    }
+}
+
+fn get_starting_stacks() -> Option<Vec<u8>> {
+    let mut input = String::new();
+    io::stdin().read_line(&mut input).ok();
+    let input_iter = input.trim().split(',');
+    input_iter.map(|n| n.parse::<u8>().ok()).collect()
 }
 
 fn play_game(mut stacks: Vec<u8>, plrs: Vec<Plr>) {
-    assert!(plrs.len() == 2, "Players Vector must have 2 elements!");
-
-    let mut plr_iter = plrs.iter().cycle();
-    let mut plr_turn = plr_iter.next().unwrap();
+    let mut plr_iter = plrs.iter().enumerate().cycle();
+    let (mut i, mut plr_turn) = plr_iter.next().unwrap();
     let dividing_bar = "-".repeat(40); // some visual string I don't want to recreate again
     let winner = loop {
         println!("{}", &dividing_bar);
         println!("Nim Sum: {}", nim_sum(stacks.iter()));
         println!("{}", get_str_stacks(&stacks));
-        println!("{}: Choose a stack and number to remove.", plr_turn);
+        println!(
+            "Player {} ({}): Choose a stack and number to remove.",
+            i + 1,
+            plr_turn
+        );
 
         // We can essentially force the player to re input values
         // without panicking
         let (index, num) = match plr_turn {
-            Plr::Person(_) => match get_plr_input(stacks.len()) {
+            Plr::Person => match get_plr_input(stacks.len()) {
                 Some(x) => x,
                 None => continue,
             },
@@ -66,7 +99,7 @@ fn play_game(mut stacks: Vec<u8>, plrs: Vec<Plr>) {
             break plr_turn;
         }
         // Its safe to unwrap since its cyclic
-        plr_turn = plr_iter.next().unwrap();
+        (i, plr_turn) = plr_iter.next().unwrap();
     };
     println!("{} wins!", winner);
 }
