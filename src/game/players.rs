@@ -49,3 +49,18 @@ pub fn get_plr_input(stack_len: usize) -> Option<(usize, u8)> {
 
     index.zip(num)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn nim_sum_358() {
+        assert_eq!(14, nim_sum(vec![3, 5, 8].iter()))
+    }
+
+    #[test]
+    fn ai_first_move_358() {
+        assert_eq!((2, 2), get_ai_input(vec![3, 5, 8]))
+    }
+}

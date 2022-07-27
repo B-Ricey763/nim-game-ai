@@ -22,3 +22,18 @@ pub fn get_str_stacks(stacks: &Vec<u8>) -> String {
         .collect::<Vec<String>>()
         .join("\n")
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn stack_display_358() {
+        assert_eq!(
+            "1: 🪙🪙🪙\n\
+            2: 🪙🪙🪙🪙🪙\n\
+            3: 🪙🪙🪙🪙🪙🪙🪙🪙",  
+          get_str_stacks(&vec![3, 5, 8])
+        )
+    }
+}
