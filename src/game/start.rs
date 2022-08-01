@@ -12,7 +12,7 @@ fn get_yes_ans() -> Option<bool> {
 }
 
 pub fn get_starting_stacks() -> Option<Vec<u8>> {
-    println!("Write out a list stacks, with a comma seperating each (i.e. 3, 5, 8)");
+    println!("Write out a list stacks, with a comma seperating each (ex. 3, 5, 8)");
     let mut input = String::new();
     io::stdin().read_line(&mut input).ok();
     // Get rid of all whitespace and other bad chars

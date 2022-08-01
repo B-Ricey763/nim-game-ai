@@ -36,7 +36,8 @@ pub fn get_ai_input(stacks: Vec<u8>) -> (usize, u8) {
 pub fn get_plr_input(stack_len: usize) -> Option<(usize, u8)> {
     let mut input = String::new();
     io::stdin().read_line(&mut input).ok();
-    let mut input_iter = input.trim().split(' ');
+    let refined_input = input.trim().replace(" ", "");
+    let mut input_iter = refined_input.split(',');
     let index = input_iter
         .next()
         .and_then(|i| i.parse::<usize>().ok())

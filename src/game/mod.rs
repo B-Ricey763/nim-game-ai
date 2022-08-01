@@ -15,7 +15,7 @@ pub fn play_game(mut stacks: Vec<u8>, plrs: Vec<Plr>) {
         println!("Nim Sum: {}", nim_sum(stacks.iter()));
         println!("{}", get_str_stacks(&stacks));
         println!(
-            "Player {} ({}): Choose a stack and number to remove.",
+            "Player {} ({}): Choose a stack and number to remove (ex. 3, 1 <- remove 1 from stack 3).",
             i + 1,
             plr_turn
         );
@@ -31,7 +31,7 @@ pub fn play_game(mut stacks: Vec<u8>, plrs: Vec<Plr>) {
                 let input @ (i, n) = get_ai_input(stacks.clone());
                 // Give the AI player a little more humanity,
                 // taking time to think and actually playing
-                println!("{} {}", i + 1, n);
+                println!("{}, {}", i + 1, n);
                 thread::sleep(time::Duration::from_millis(500));
                 input
             }
