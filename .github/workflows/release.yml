@@ -53,26 +53,18 @@ jobs:
       with: 
         toolchain: stable
         override: true
-    - name: Use Cross
-      shell: bash
-      run: |
-        cargo install cross
-        echo "CARGO=cross" >> $GITHUB_ENV
-    - name: Show command used for Cargo
-      run: |
-        echo "cargo command is: ${{ env.CARGO }}"
     - name: Build release binary
-      run: ${{ env.CARGO }} build --verbose --release 
+      run: cargo build --verbose --release 
     - name: Strip release binary (linux and macos)
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
-      run: strip "target/${{ matrix.target }}/release/nim"
-    - name: Build archive
+      run: strip "target/release/nim"
+    - name: Find Executable
       shell: bash
       run: |
         if [ "${{ matrix.os }}" = "windows-latest" ]; then
-          echo "ASSET=target/${{ matrix.target }}/release/nim.exe" >> $GITHUB_ENV
+          echo "ASSET=target/release/nim.exe" >> $GITHUB_ENV
         else
-          echo "ASSET=target/${{ matrix.target }}/release/nim" >> $GITHUB_ENV
+          echo "ASSET=target/release/nim" >> $GITHUB_ENV
         fi 
     - name: Upload release archive
       uses: actions/upload-release-asset@v1.0.1
