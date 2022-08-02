@@ -120,7 +120,7 @@ jobs:
           echo "ASSET=target/${{ matrix.target }}/release/nim.exe" >> $GITHUB_ENV
         else
           echo "ASSET=target/${{ matrix.target }}/release/nim" >> $GITHUB_ENV
-        fi
+        fi 
     - name: Upload release archive
       uses: actions/upload-release-asset@v1.0.1
       env:
