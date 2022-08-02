@@ -3,6 +3,15 @@ Nim is a subtraction game where two players alternately take one or more objects
 
 I replicated this game's functionality within the terminal, and you can play with 2 human players or play alone against the computer.
 
+## Installation
+Head to the [releases](https://github.com/B-Ricey763/nim-game-ai/releases/latest) and download the binary for your OS, and you're good to run it! If your antivirus complains, just know the code does not do anything malicious, but you can verify yourself by looking at the code. 
+
+Alternatively, you can install using cargo:
+```bash
+cargo install nim-game-ai
+```
+And run by just opening a terminal and entering `nim-game-ai`
+
 ## How the AI works
 Because of funky math involved with combinatorial game theory that I barely understand myself, you are able to do a 'nim sum' of the numbers to get a value. When the nim sum is 0, no move can keep it at 0, and when it isn't 0, there is one or more moves that can bring it to 0. If a player can keep the nim sum of the game at 0 at each move, they win the game. The nim sum is calculated by converting the number of items in each stack into binary, and then applying the XOR (exclusive or) operator to each number. 
 
