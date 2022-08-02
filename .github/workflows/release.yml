@@ -50,14 +50,14 @@ jobs:
       run: cargo build --verbose --release 
     - name: Strip release binary (linux and macos)
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
-      run: strip "target/release/nim"
+      run: strip "target/release/nim-game-ai"
     - name: Find Executable
       shell: bash
       run: |
         if [ "${{ matrix.os }}" = "windows-latest" ]; then
-          echo "ASSET=target/release/nim.exe" >> $GITHUB_ENV
+          echo "ASSET=target/release/nim-game-ai.exe" >> $GITHUB_ENV
         else
-          echo "ASSET=target/release/nim" >> $GITHUB_ENV
+          echo "ASSET=target/release/nim-game-ai" >> $GITHUB_ENV
         fi 
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
