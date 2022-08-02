@@ -29,22 +29,15 @@ jobs:
     name: build-release
     needs: ['create-release']
     runs-on: ${{ matrix.os }}
-    env:
-      # For some builds, we use cross to test on 32-bit and big-endian
-      # systems.
-      CARGO: cargo
-      # When CARGO is set to CROSS, this is set to `--target matrix.target`.
-      TARGET_FLAGS: ""
-      # When CARGO is set to CROSS, TARGET_DIR includes matrix.target.
-      TARGET_DIR: ./target
-      # Emit backtraces on panics.
-      RUST_BACKTRACE: 1
-      # Build static releases with PCRE2.
-      PCRE2_SYS_STATIC: 1
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
-
+        include:
+          - os: ubuntu-latest
+            asset_name: nim-linux
+          - os: windows-latest
+            asset_name: nim.exe
+          - os: macos-latest
+            asset_name: nim-macos
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -66,12 +59,8 @@ jobs:
         else
           echo "ASSET=target/release/nim" >> $GITHUB_ENV
         fi 
-    - name: Upload release archive
-      uses: actions/upload-release-asset@v1.0.1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
       with:
-        upload_url: ${{ needs.create-release.outputs.upload_url }}
-        asset_path: ${{ env.ASSET }}
-        asset_name: ${{ env.ASSET }}
-        asset_content_type: application/octet-stream
+        file: ${{ env.ASSET }}
+        asset_name: ${{ matrix.asset_name }}
