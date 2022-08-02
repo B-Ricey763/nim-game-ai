@@ -1,4 +1,5 @@
 # Nim with AI
+
 Nim is a subtraction game where two players alternately take one or more objects from one of a number of stacks, where the last player who moves wins the game.
 
 I replicated this game's functionality within the terminal, and you can play with 2 human players or play alone against the computer.
