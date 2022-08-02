@@ -48,11 +48,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-      with:
-        fetch-depth: 1
     - name: Install Rust
-      uses: dtolnay/rust-toolchain@v1
-
+      uses: actions-rs/toolchain@v1
     - name: Use Cross
       shell: bash
       run: |
@@ -63,7 +60,6 @@ jobs:
         echo "cargo command is: ${{ env.CARGO }}"
     - name: Build release binary
       run: ${{ env.CARGO }} build --verbose --release 
-
     - name: Strip release binary (linux and macos)
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
       run: strip "target/${{ matrix.target }}/release/nim"
