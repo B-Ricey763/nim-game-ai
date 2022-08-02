@@ -1,9 +1,11 @@
 [package]
-name = "nim"
-version = "0.1.0"
+name = "nim-game-ai"
+version = "1.0.0"
 edition = "2021"
+liscense = "MIT"
+description = "Nim Game Implementation with AI"
+readme = "README.md"
+homepage = "https://github.com/B-Ricey763/nim-game-ai"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[dependencies]
-rand = "0.8.5"
