@@ -15,6 +15,8 @@ cargo install nim-game-ai
 ```
 And run by just opening a terminal and entering `nim-game-ai`
 
+To build from source, just clone the repository and run `cargo run` while in the directory. 
+
 ## How the AI works
 Because of funky math involved with combinatorial game theory that I barely understand myself, you are able to do a 'nim sum' of the numbers to get a value. When the nim sum is 0, no move can keep it at 0, and when it isn't 0, there is one or more moves that can bring it to 0. If a player can keep the nim sum of the game at 0 at each move, they win the game. The nim sum is calculated by converting the number of items in each stack into binary, and then applying the XOR (exclusive or) operator to each number. 
 
